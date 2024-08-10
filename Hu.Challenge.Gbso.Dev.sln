@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Domain", "Challen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Domain.UnitTest", "Challenge.Domain.UnitTest\Challenge.Domain.UnitTest.csproj", "{1FC4A703-776F-459B-8F86-B457116A271D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Application", "Challenge.Application\Challenge.Application.csproj", "{8F20AC28-99ED-4BC5-AE8F-F8A6EC49E8CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Application", "Challenge.Application\Challenge.Application.csproj", "{8F20AC28-99ED-4BC5-AE8F-F8A6EC49E8CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.EfStorage", "Challenge.EfStorage\Challenge.EfStorage.csproj", "{28225D35-5A31-49AB-84F3-7ACEA7E4E1A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8F20AC28-99ED-4BC5-AE8F-F8A6EC49E8CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F20AC28-99ED-4BC5-AE8F-F8A6EC49E8CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F20AC28-99ED-4BC5-AE8F-F8A6EC49E8CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28225D35-5A31-49AB-84F3-7ACEA7E4E1A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28225D35-5A31-49AB-84F3-7ACEA7E4E1A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28225D35-5A31-49AB-84F3-7ACEA7E4E1A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28225D35-5A31-49AB-84F3-7ACEA7E4E1A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
