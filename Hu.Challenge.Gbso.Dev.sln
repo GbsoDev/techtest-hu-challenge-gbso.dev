@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Domain.UnitTest",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Application", "Challenge.Application\Challenge.Application.csproj", "{8F20AC28-99ED-4BC5-AE8F-F8A6EC49E8CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.EfStorage", "Challenge.EfStorage\Challenge.EfStorage.csproj", "{28225D35-5A31-49AB-84F3-7ACEA7E4E1A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.EfStorage", "Challenge.EfStorage\Challenge.EfStorage.csproj", "{28225D35-5A31-49AB-84F3-7ACEA7E4E1A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.EfPostgreSqlStorge", "Challenge.EfPostgreSqlStorge\Challenge.EfPostgreSqlStorge.csproj", "{56DA7174-D3B9-4108-A564-B687354D151A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.EfPostgreSqlStorge", "Challenge.EfPostgreSqlStorge\Challenge.EfPostgreSqlStorge.csproj", "{56DA7174-D3B9-4108-A564-B687354D151A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Infrastructure", "Challenge.Infrastructure\Challenge.Infrastructure.csproj", "{9C5E07AC-55F3-45CB-9DD3-5595EE511AD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{56DA7174-D3B9-4108-A564-B687354D151A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56DA7174-D3B9-4108-A564-B687354D151A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56DA7174-D3B9-4108-A564-B687354D151A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C5E07AC-55F3-45CB-9DD3-5595EE511AD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C5E07AC-55F3-45CB-9DD3-5595EE511AD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C5E07AC-55F3-45CB-9DD3-5595EE511AD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C5E07AC-55F3-45CB-9DD3-5595EE511AD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
