@@ -1,4 +1,4 @@
-﻿namespace Challenge.Api.Options
+﻿namespace Challenge.Infrastructure.Options
 {
 	public class CorsOptions
 	{

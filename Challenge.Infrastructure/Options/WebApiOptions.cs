@@ -1,6 +1,7 @@
 ﻿using Challenge.Domain.Options;
 
-namespace Challenge.Api.Options
+namespace Challenge.Infrastructure.Options
+
 {
 	[Option("WebApi")]
 	public class WebApiOptions
