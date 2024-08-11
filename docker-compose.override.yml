@@ -21,8 +21,6 @@ services:
     environment:
       - DOTNET_ENVIRONMENT=Development
       - ConnectionStrings__challengedb=Server=${DATABASE_SERVER},5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
-      - Worker__NumberOfRetries=${OUTBOX_PUBLISHERWORKER_NUMBEROFRETRIES}
-      - Worker__RetryDelay=${OUTBOX_PUBLISHERWORKER_RETRYDELAY}
       - Worker__ExecutionInterval=${OUTBOX_PUBLISHERWORKER_EXECUTIONINTERVAL}
       - RabbitMQ__HostName=${RABBITMQ_HOSTNAME}
       - RabbitMQ__UserName=${RABBITMQ_USERNAME}
@@ -35,6 +33,7 @@ services:
   challenge.broker.notificationworker:
     environment:
       - DOTNET_ENVIRONMENT=Development
+      - ConnectionStrings__challengedb=Server=${DATABASE_SERVER},5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
       - Worker__NumberOfRetries=${BROKER_NOTIFICATIONWORKER_NUMBEROFRETRIES}
       - Worker__RetryDelay=${BROKER_NOTIFICATIONWORKER_RETRYDELAY}
       - Worker__ExecutionInterval=${BROKER_NOTIFICATIONWORKER_EXECUTIONINTERVAL}

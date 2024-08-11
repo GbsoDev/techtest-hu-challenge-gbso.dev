@@ -15,6 +15,8 @@ builder.Services.AddEfStorageProvider(builder.Configuration);
 builder.Services.AddDomainServices();
 builder.Services.AddAdapters();
 builder.Services.AddMediatR(ApplicationAssemblyHelper.GetApplicationAssembly);
+builder.Services.AddAutoMapper(ApplicationAssemblyHelper.GetApplicationAssembly);
+
 //End Custom
 
 var host = builder.Build();

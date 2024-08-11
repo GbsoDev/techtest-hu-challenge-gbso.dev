@@ -24,14 +24,12 @@ This file defines the environment variables needed for the services, such as dat
 
 ```POSTGRES_DB=challenge-db```
 
-
 #### RabbitMQ
 ```RABBITMQ_HOSTNAME=challenge.rabbitmq```
 
 ```RABBITMQ_USERNAME=challenge-user```
 
 ```RABBITMQ_PASSWORD=challenge-pw```
-
 
 #### SendGrid
 ```SENDGRID_APIKEY=YOUR_SENDGRID_API_KEY```
@@ -40,14 +38,8 @@ This file defines the environment variables needed for the services, such as dat
 
 ```SENDGRID_FROMNAME=Flights Areline```
 
-
 #### Challenge.Outbox.PublisherWorker
-```OUTBOX_PUBLISHERWORKER_NUMBEROFRETRIES=1```
-
-```OUTBOX_PUBLISHERWORKER_RETRYDELAY=0.00:01:00```
-
 ```OUTBOX_PUBLISHERWORKER_EXECUTIONINTERVAL=0.00:05:00```
-
 
 #### Challenge.Broker.NotificationWorker
 ```BROKER_NOTIFICATIONWORKER_NUMBEROFRETRIES=5```
@@ -55,7 +47,6 @@ This file defines the environment variables needed for the services, such as dat
 ```BROKER_NOTIFICATIONWORKER_RETRYDELAY=0.00:01:00```
 
 ```BROKER_NOTIFICATIONWORKER_EXECUTIONINTERVAL=0.00:05:00```
-
 
 #### Challenge.Email.NotificationWorker
 ```EMAIL_NOTIFICATIONWORKER_NUMBEROFRETRIES=2```

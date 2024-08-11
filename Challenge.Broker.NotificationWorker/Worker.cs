@@ -63,7 +63,27 @@ namespace Challenge.Broker.NotificationWorker
 
 		private async Task RunAsync(CancellationToken stoppingToken)
 		{
-			await _mediator.Send(new PublishProcessedReservationsAtBrokerCommand(), stoppingToken).ConfigureAwait(false);
+			int retryCount = 0;
+			int maxRetries = _workerConfig.NumberOfRetries;
+
+			while (retryCount < maxRetries)
+			{
+				try
+				{
+					await _mediator.Send(new PublishProcessedReservationsAtBrokerCommand(), stoppingToken).ConfigureAwait(false);
+					return;
+				}
+				catch (RabbitMQ.Client.Exceptions.ConnectFailureException ex)
+				{
+					retryCount++;
+					if (retryCount >= maxRetries)
+					{
+						_logger.LogError(ex, "Max retry attempts reached. {Excepcion}: {Mensaje}", nameof(Exception), ex.Message);
+						throw;
+					}
+					await Task.Delay(_workerConfig.RetryDelay);
+				}
+			}
 		}
 
 		public override async Task StopAsync(CancellationToken cancellationToken)

@@ -11,9 +11,11 @@ builder.Services.AddHostedService<Worker>();
 builder.Services.ConfigureOptions(builder.Configuration, DomainAssemblyHelper.GetDomainAssembly);
 builder.Services.ConfigureOptions(builder.Configuration, InfrastructureAssemblyHelper.GetInfrastructureAssembly);
 builder.Services.AddLazyLoadingSupport();
-builder.Services.AddMediatR(ApplicationAssemblyHelper.GetApplicationAssembly);
+builder.Services.AddEfStorageProvider(builder.Configuration);
 builder.Services.AddDomainServices();
 builder.Services.AddAdapters();
+builder.Services.AddAutoMapper(ApplicationAssemblyHelper.GetApplicationAssembly);
+builder.Services.AddMediatR(ApplicationAssemblyHelper.GetApplicationAssembly);
 //End Custom
 
 var host = builder.Build();
