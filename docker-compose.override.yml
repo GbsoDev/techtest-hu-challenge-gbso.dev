@@ -33,6 +33,14 @@ services:
       - challenge.database
       - challenge.rabbitmq
 
+  challenge.email.notificationworker:
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+    depends_on:
+      - challenge.rabbitmq
+
   challenge.rabbitmq:
     environment:
       RABBITMQ_DEFAULT_USER: challenge-user
@@ -64,7 +72,6 @@ services:
       - pgadmin:/var/lib/pgadmin
     depends_on: 
       - challenge.database
-
 volumes:
     dbdata:
     pgadmin:

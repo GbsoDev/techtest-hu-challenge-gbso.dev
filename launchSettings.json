@@ -6,7 +6,8 @@
       "serviceActions": {
         "challenge.api": "StartDebugging",
         "challenge.worker.outboxprocessor": "StartDebugging",
-        "challenge.notifycation.worker": "StartDebugging"
+        "challenge.notifycation.worker": "StartDebugging",
+        "challenge.email.notificationworker": "StartDebugging"
       }
     }
   }
