@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Email.Notificatio
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4EC3655F-D786-44CD-A995-E17CD2A61A7B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workers", "Workers", "{177B3223-9551-4527-AD96-F34EF7ECC442}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{736602C2-0C8C-4930-91D9-569C3EF07FF5} = {177B3223-9551-4527-AD96-F34EF7ECC442}
+		{562160F0-0EF4-411A-A2E9-CEDF9CA40444} = {177B3223-9551-4527-AD96-F34EF7ECC442}
+		{46A68E00-C50F-452E-8E03-56A6A362C554} = {177B3223-9551-4527-AD96-F34EF7ECC442}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A087C207-FC38-4D1C-BDCE-242FE61E99D3}
