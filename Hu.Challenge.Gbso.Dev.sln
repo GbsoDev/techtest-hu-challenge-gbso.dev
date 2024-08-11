@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Outbox.PublisherW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Broker.NotificationWorker", "Challenge.Broker.NotificationWorker\Challenge.Broker.NotificationWorker.csproj", "{562160F0-0EF4-411A-A2E9-CEDF9CA40444}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Email.NotificationWorker", "Challenge.Email.NotificationWorker\Challenge.Email.NotificationWorker.csproj", "{46A68E00-C50F-452E-8E03-56A6A362C554}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{562160F0-0EF4-411A-A2E9-CEDF9CA40444}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{562160F0-0EF4-411A-A2E9-CEDF9CA40444}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{562160F0-0EF4-411A-A2E9-CEDF9CA40444}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46A68E00-C50F-452E-8E03-56A6A362C554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46A68E00-C50F-452E-8E03-56A6A362C554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46A68E00-C50F-452E-8E03-56A6A362C554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46A68E00-C50F-452E-8E03-56A6A362C554}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
