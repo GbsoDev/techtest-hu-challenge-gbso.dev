@@ -2,6 +2,6 @@
 {
 	public static class Constants
 	{
-		public const string MAIN_CONNECTION_NAME = "challenge-db";
+		public const string MAIN_CONNECTION_NAME = "challengedb";
 	}
 }

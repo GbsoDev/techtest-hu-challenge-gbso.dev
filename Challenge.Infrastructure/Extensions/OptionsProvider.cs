@@ -13,14 +13,16 @@ namespace Challenge.Infrastructure.Extensions
 
 		public static IServiceCollection ConfigureOptions(this IServiceCollection services, IConfiguration configuration, Assembly assembly)
 		{
+			IConfigurationRoot environmentConfiguration = AddEnvironmentVariable(configuration);
+
 			var types = DomainAssemblyHelper.GeyTypesByAttribute(assembly, typeof(OptionAttribute));
 			foreach (var type in types)
 			{
 				var attribute = type.GetCustomAttribute<OptionAttribute>()!;
-				var constructor = type.GetConstructor([]);
+				var constructor = type.GetConstructor(Type.EmptyTypes);
 				if (constructor != null)
 				{
-					services.ConfigureOption(type, configuration, attribute.SecctionName);
+					services.ConfigureOption(type, environmentConfiguration, attribute.SecctionName);
 				}
 				else
 				{
@@ -63,6 +65,14 @@ namespace Challenge.Infrastructure.Extensions
 			{
 				services.Configure<TOptions>(option => configurationSection.Bind(option, BinderOptions));
 			}
+		}
+
+		private static IConfigurationRoot AddEnvironmentVariable(IConfiguration configuration)
+		{
+			return new ConfigurationBuilder()
+							.AddConfiguration(configuration)
+							.AddEnvironmentVariables()
+							.Build();
 		}
 	}
 }

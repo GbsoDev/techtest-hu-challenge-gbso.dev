@@ -10,21 +10,27 @@ namespace Challenge.Broker.NotificationWorker
 	{
 		private readonly ILogger<Worker> _logger;
 		private readonly IMediator _mediator;
+		private readonly IServiceScope _serviceScope;
 		private readonly WorkerOptions _workerConfig;
 
 		private Timer? _executionTimer;
 		private readonly SemaphoreSlim _semaphore = new(1, 1);
 
-		public Worker(ILogger<Worker> logger, IMediator mediator, IOptions<WorkerOptions> options)
+		public Worker(ILogger<Worker> logger, IOptions<WorkerOptions> options, IServiceProvider serviceProvider)
 		{
 			_logger = logger;
-			_mediator = mediator;
+			_serviceScope = serviceProvider.CreateScope();
+			_mediator = _serviceScope.ServiceProvider.GetRequiredService<IMediator>();
 			_workerConfig = options.Value;
 		}
 
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 		{
-			_executionTimer = new Timer(async _ => await ProcessExecutionAsync(stoppingToken), null, TimeSpan.Zero, TimeSpan.FromMinutes(_workerConfig.ExecutionIntervalMinutes));
+			_executionTimer = new Timer(
+				callback: async _ => await ProcessExecutionAsync(stoppingToken),
+				state: null,
+				dueTime: TimeSpan.Zero,
+				period: _workerConfig.ExecutionInterval);
 			await Task.CompletedTask;
 		}
 
@@ -67,6 +73,7 @@ namespace Challenge.Broker.NotificationWorker
 				_executionTimer.Change(Timeout.Infinite, 0);
 				await _executionTimer.DisposeAsync();
 			}
+			_serviceScope.Dispose();
 			await base.StopAsync(cancellationToken);
 		}
 	}

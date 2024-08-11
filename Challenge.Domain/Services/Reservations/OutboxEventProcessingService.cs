@@ -16,7 +16,8 @@ namespace Challenge.Domain.Services.Reservations
 		private readonly Lazy<UpdateReservationInStorageService> _updateReservationInStorageService;
 		private readonly Lazy<DeleteReservationInStorageService> _deleteReservationInStorageService;
 
-		public OutboxEventProcessingService(ILogger<AddCancelReservationToOutboxService> logger,
+		public OutboxEventProcessingService(
+			ILogger<AddCancelReservationToOutboxService> logger,
 			Lazy<IOutboxRepository> outboxRepository,
 			Lazy<IReservationsRepository> reservationsRepository,
 			Lazy<SaveReservationToStorageService> saveReservationToStorageService,

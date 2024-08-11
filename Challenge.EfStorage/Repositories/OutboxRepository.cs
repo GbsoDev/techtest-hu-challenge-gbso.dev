@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Challenge.EfStorage.Repositories
 {
+	[Repository]
 	public class OutboxRepository : IOutboxRepository
 	{
 		private readonly ILogger<OutboxRepository> logger;

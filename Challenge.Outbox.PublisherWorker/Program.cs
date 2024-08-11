@@ -1,15 +1,15 @@
 using Challenge.Application.Helpers;
 using Challenge.Domain.Helpers;
 using Challenge.Infrastructure.Extensions;
+using Challenge.Infrastructure.Helpers;
 using Challenge.Outbox.PublisherWorker;
-using Challenge.Outbox.PublisherWorker.Helpers;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<Worker>();
 
 //Custom
 builder.Services.ConfigureOptions(builder.Configuration, DomainAssemblyHelper.GetDomainAssembly);
-builder.Services.ConfigureOptions(builder.Configuration, WorkerAssemblyHelper.GetWorkerAssembly);
+builder.Services.ConfigureOptions(builder.Configuration, InfrastructureAssemblyHelper.GetInfrastructureAssembly);
 builder.Services.AddLazyLoadingSupport();
 builder.Services.AddEfStorageProvider(builder.Configuration);
 builder.Services.AddDomainServices();
