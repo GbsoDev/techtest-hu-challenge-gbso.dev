@@ -55,11 +55,10 @@ namespace Challenge.Domain.Services.Reservations
 		private async Task SetReservationData(IEnumerable<Outbox> unProcessedOutboxes, CancellationToken cancellationToken)
 		{
 			var deleteIdds = unProcessedOutboxes
-				.Where(outbox => outbox.EventType == EventType.Delete)
-				.Select(outbox => outbox.DeserializedData<Guid>())
+				.Select(outbox => outbox.EventType == EventType.Delete ? outbox.DeserializedData<Guid>() : outbox.DeserializedData<Reservation>().Id)
 				.ToArray();
 
-			var reservationsInStorage = await _reservationsRepository.Value.GetMultipleByIdAsync(deleteIdds, cancellationToken);
+			var reservationsInStorage = await _reservationsRepository.Value.GetMultipleByIdAndIncludeAnyAsync(deleteIdds, cancellationToken);
 
 			var join = unProcessedOutboxes.Join(reservationsInStorage,
 				unprocessed => unprocessed.DeserializedData<Guid>(), reservation => reservation.Id,

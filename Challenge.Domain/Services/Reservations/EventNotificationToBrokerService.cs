@@ -8,7 +8,7 @@ using System.Text.Json;
 namespace Challenge.Domain.Services.Reservations
 {
 	[Service]
-	public class OutboxEventNotificationService
+	public class EventNotificationToBrokerService
 	{
 		private readonly ILogger<AddCancelReservationToOutboxService> _logger;
 		private readonly Lazy<IOutboxRepository> _outboxRepository;
@@ -16,7 +16,7 @@ namespace Challenge.Domain.Services.Reservations
 		private readonly Lazy<NotifyReservationCancelledService> _notifyReservationCancelledService;
 		private readonly Lazy<NotifyReservationUpdatedService> _notifyReservationUpdatedService;
 
-		public OutboxEventNotificationService(ILogger<AddCancelReservationToOutboxService> logger,
+		public EventNotificationToBrokerService(ILogger<AddCancelReservationToOutboxService> logger,
 			Lazy<IOutboxRepository> outboxRepository,
 			Lazy<NotifyReservationSavedService> notifyReservationCreatedService,
 			Lazy<NotifyReservationCancelledService> notifyReservationCancelledService,
@@ -38,9 +38,9 @@ namespace Challenge.Domain.Services.Reservations
 			{
 				var task = outbox.EventType switch
 				{
-					EventType.Create => ProcessReservationEventAsync(outbox, _notifyReservationCreatedService.Value.NotifyAsync, cancellationToken),
-					EventType.Update => ProcessReservationEventAsync(outbox, _notifyReservationUpdatedService.Value.NotifyAsync, cancellationToken),
-					EventType.Delete => ProcessReservationEventAsync(outbox, _notifyReservationCancelledService.Value.NotifyAsync, cancellationToken),
+					EventType.Create => ProcessNotificationEventAsync(outbox, _notifyReservationCreatedService.Value.NotifyAsync, cancellationToken),
+					EventType.Update => ProcessNotificationEventAsync(outbox, _notifyReservationUpdatedService.Value.NotifyAsync, cancellationToken),
+					EventType.Delete => ProcessNotificationEventAsync(outbox, _notifyReservationCancelledService.Value.NotifyAsync, cancellationToken),
 					_ => throw new InvalidOperationException(string.Format(ValidationMessages.NotFoundEnumValue, outbox.EventType, nameof(EventType)))
 				};
 				await task.ConfigureAwait(false);
@@ -48,13 +48,13 @@ namespace Challenge.Domain.Services.Reservations
 			_logger.LogInformation(LogMessages.ObjectsProcessed, nameof(Reservation));
 		}
 
-		private async Task ProcessReservationEventAsync(
+		private async Task ProcessNotificationEventAsync(
 			Outbox outbox,
 			Func<Reservation, CancellationToken, Task> processReservationAsync,
 			CancellationToken cancellationToken)
 		{
-			var reservation = JsonSerializer.Deserialize<Reservation>(outbox.EventData)!;
-			await processReservationAsync(reservation!, cancellationToken).ConfigureAwait(false);
+			var reservation = outbox.DeserializedData<Reservation>();
+			await processReservationAsync(reservation, cancellationToken).ConfigureAwait(false);
 			await _outboxRepository.Value.DeleteAsync(outbox, cancellationToken).ConfigureAwait(false);
 			await _outboxRepository.Value.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 		}
