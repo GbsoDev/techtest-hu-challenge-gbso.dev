@@ -10,52 +10,69 @@ using System.Text;
 namespace Challenge.Infrastructure.Adapters
 {
 	[Adapter]
-	public class NotifycationService : IBrokerService
+	public class BrokerService : IBrokerService
 	{
-		private readonly ILogger<NotifycationService> _logger;
+		private readonly ILogger<BrokerService> _logger;
 		private readonly IOptions<RabbitMQOptions> _rabbitMQOptions;
 
 		private readonly IConnection _connection;
 		private readonly IModel _channel;
 
-		public NotifycationService(ILogger<NotifycationService> logger, IOptions<RabbitMQOptions> rabbitMQOptions)
+		public BrokerService(ILogger<BrokerService> logger, IOptions<RabbitMQOptions> rabbitMQOptions)
 		{
+			_logger = logger;
+			_rabbitMQOptions = rabbitMQOptions;
+
 			var factory = CreateConnectionFactory();
 			_connection = factory.CreateConnection();
 			_channel = _connection.CreateModel();
-
-			_channel.QueueDeclare(queue: nameof(Reservation), durable: false, exclusive: false, autoDelete: false, arguments: null);
-			_logger = logger;
-			_rabbitMQOptions = rabbitMQOptions;
+			QueueDeclare();
 		}
 
-		public async Task PublisMessageAtBroker(CancellationToken cancellationToken, string messageBody)
+		private void QueueDeclare()
+		{
+			_channel.QueueDeclare(
+				queue: nameof(Reservation),
+				durable: true,
+				exclusive: false,
+				autoDelete: false,
+				arguments: null);
+		}
+
+		public async Task PublisMessageAtBroker(string messageBody, CancellationToken cancellationToken)
 		{
 			var body = Encoding.UTF8.GetBytes(messageBody);
 
 			if (!cancellationToken.IsCancellationRequested)
 			{
-				_channel.BasicPublish(exchange: "",
-					routingKey: "hello",
+				_channel.BasicPublish(
+					exchange: string.Empty,
+					routingKey: nameof(Reservation),
 					basicProperties: null,
 					body: body);
 			}
 			await Task.CompletedTask;
 		}
 
-		public async Task ReadMessageFromBroker(CancellationToken cancellationToken)
+		public async Task<string> ReadMessageFromBroker(CancellationToken cancellationToken)
 		{
+			var tcs = new TaskCompletionSource<string>();
 			var consumer = new EventingBasicConsumer(_channel);
+
 			consumer.Received += (model, ea) =>
 			{
 				var body = ea.Body.ToArray();
 				var message = Encoding.UTF8.GetString(body);
-				// Procesa el mensaje aquí
+				tcs.TrySetResult(message);
+				_channel.BasicAck(ea.DeliveryTag, false); // Reconocer el mensaje
 			};
 
-			_channel.BasicConsume(queue: nameof(Reservation), autoAck: true, consumer: consumer);
+			_channel.BasicConsume(queue: nameof(Reservation), autoAck: false, consumer: consumer);
 
-			await Task.CompletedTask;
+			using (cancellationToken.Register(() => tcs.TrySetCanceled()))
+			{
+				return await tcs.Task;
+			}
 		}
 
 		private ConnectionFactory CreateConnectionFactory()

@@ -27,9 +27,15 @@ namespace Challenge.EfStorage.Repositories
 			return await _repository.GetAllAsync(cancellationToken);
 		}
 
-		public async Task<Reservation[]> GetMultipleByIdAsync(Guid[] ids, CancellationToken cancellationToken = default)
+		public async Task<Reservation[]> GetMultipleByIdAndIncludeAnyAsync(Guid[] ids, CancellationToken cancellationToken = default)
 		{
-			return await _repository.Set().Where(reservation => ids.Contains(reservation.Id)).ToArrayAsync(cancellationToken);
+			return await _repository.Set()
+				.Where(reservation => ids.Contains(reservation.Id))
+				.Include(reservation => reservation.Flight)
+				.ThenInclude(flight=> flight!.OriginCity)
+				.Include(reservation => reservation.Flight)
+				.ThenInclude(flight => flight!.DestinationCity)
+				.ToArrayAsync(cancellationToken);
 		}
 
 		public async Task<Reservation?> GetByIdAsync(object id, CancellationToken cancellationToken = default)

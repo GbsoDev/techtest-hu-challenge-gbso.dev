@@ -16,6 +16,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>LogMessages.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\TemplateParameters.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TemplateParameters.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\ValidationMessages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -24,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\TemplateParameters.resx">
+      <LastGenOutput>TemplateParameters.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\LogMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LogMessages.Designer.cs</LastGenOutput>

@@ -12,7 +12,6 @@ namespace Challenge.Domain.Entities.Reservations
 		public Guid FlightId { get; private set; }
 		public string SeatNumber { get; private set; }
 
-		[JsonIgnore]
 		public virtual Flight? Flight { get; private set; }
 
 		public Reservation(string userName, string passportNumber, string email, Guid flightId, string seatNumber)

@@ -2,7 +2,6 @@ using Challenge.Domain.Dtos;
 using Challenge.Domain.Entities.Reservations;
 using Challenge.Domain.Ports;
 using Challenge.Domain.Resources;
-using Challenge.Domain.Validations;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
