@@ -1,4 +1,5 @@
 ﻿using Challenge.Domain.Helpers;
+using Challenge.EfStorage.Configurations;
 using Challenge.EfStorage.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -15,8 +16,7 @@ namespace Challenge.EfStorage
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
-			var assembly = EfStorageAssemblyHelper.GetEfStorageAssembly;
-			modelBuilder.ApplyConfigurationsFromAssembly(assembly!);
+			modelBuilder.ApplyConfigurationsFromAssembly(EfStorageAssemblyHelper.GetEfStorageAssembly);
 			ApplyConfigurations(modelBuilder);
 			foreach (var entityType in modelBuilder.Model.GetEntityTypes()
 				.Where(entityType => EntityHelper.IsIAuditableEntity(entityType.ClrType)))

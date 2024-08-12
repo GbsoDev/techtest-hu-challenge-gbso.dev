@@ -10,6 +10,7 @@ namespace Challenge.EfStorage.Configurations
 		public void Configure(EntityTypeBuilder<Outbox> builder)
 		{
 			builder.ToTable("Outbox");
+
 			builder.HasKey(o => o.Id);
 
 			builder.Property(o => o.EventType)

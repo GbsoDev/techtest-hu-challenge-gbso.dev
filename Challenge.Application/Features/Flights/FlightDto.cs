@@ -2,7 +2,7 @@
 
 namespace Challenge.Application.Features.Flights
 {
-	public class FlightDto : DomainEntity<Guid>
+	public class FlightDto
 	{
 		public Guid Id { get; init; }
 		public Guid OriginCityId { get; init; }

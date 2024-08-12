@@ -9,6 +9,7 @@ namespace Challenge.EfStorage.Configurations
 		public void Configure(EntityTypeBuilder<Reservation> builder)
 		{
 			builder.ToTable("Reservations");
+
 			builder.HasKey(r => r.Id);
 
 			builder.Property(r => r.UserName)
