@@ -1,6 +1,4 @@
-﻿using Challenge.Domain.Entities;
-
-namespace Challenge.Application.Features.Flights
+﻿namespace Challenge.Application.Features.Flights
 {
 	public class FlightDto
 	{

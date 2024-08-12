@@ -88,7 +88,7 @@ namespace Challenge.EfStorage
 			Context.ChangeTracker.DetectChanges();
 			foreach (var entry in Context.ChangeTracker.Entries())
 			{
-				if(EntityHelper.IsIAuditableEntity(entry.GetType()))
+				if (EntityHelper.IsIAuditableEntity(entry.GetType()))
 				{
 					if (entry.State == EntityState.Added)
 					{

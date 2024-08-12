@@ -32,7 +32,7 @@ namespace Challenge.EfStorage.Repositories
 			return await _repository.Set()
 				.Where(reservation => ids.Contains(reservation.Id))
 				.Include(reservation => reservation.Flight)
-				.ThenInclude(flight=> flight!.OriginCity)
+				.ThenInclude(flight => flight!.OriginCity)
 				.Include(reservation => reservation.Flight)
 				.ThenInclude(flight => flight!.DestinationCity)
 				.ToArrayAsync(cancellationToken);

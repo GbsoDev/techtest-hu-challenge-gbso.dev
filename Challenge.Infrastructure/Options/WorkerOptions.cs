@@ -6,8 +6,8 @@ namespace Challenge.Outbox.PublisherWorker.Options
 	public class WorkerOptions
 	{
 
-		public int NumberOfRetries {get;init;}
-		public TimeSpan RetryDelay {get;init;}
-		public TimeSpan ExecutionInterval { get; init;}
+		public int NumberOfRetries { get; init; }
+		public TimeSpan RetryDelay { get; init; }
+		public TimeSpan ExecutionInterval { get; init; }
 	}
 }

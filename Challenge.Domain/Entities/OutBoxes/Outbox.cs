@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 
 #pragma warning disable CS8618
 namespace Challenge.Domain.Entities.OutBoxes
@@ -45,7 +44,7 @@ namespace Challenge.Domain.Entities.OutBoxes
 		{
 			if (_deserializedData == null)
 			{
-				_deserializedData = JsonSerializer.Deserialize<T>(EventData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
+				_deserializedData = JsonSerializer.Deserialize<T>(EventData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 			}
 			return (T)_deserializedData!;
 		}
