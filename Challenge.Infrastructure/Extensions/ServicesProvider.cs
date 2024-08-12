@@ -1,6 +1,7 @@
 using Challenge.Domain.Helpers;
 using Challenge.Domain.Services;
 using Challenge.Infrastructure.Adapters;
+using Challenge.Infrastructure.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -16,7 +17,7 @@ namespace Challenge.Infrastructure.Extensions
 
 		public static IServiceCollection AddAdapters(this IServiceCollection services)
 		{
-			services.AddServices<AdapterAttribute>(DomainAssemblyHelper.GetDomainAssembly);
+			services.AddServices<AdapterAttribute>(InfrastructureAssemblyHelper.GetInfrastructureAssembly);
 			return services;
 		}
 

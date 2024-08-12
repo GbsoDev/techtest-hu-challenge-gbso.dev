@@ -12,6 +12,7 @@ namespace Challenge.Domain.Services.Reservations
 		private readonly ILogger<AddCancelReservationToOutboxService> _logger;
 		private readonly Lazy<IOutboxRepository> _outboxRepository;
 		private readonly Lazy<IReservationsRepository> _reservationsRepository;
+		private readonly Lazy<IFlightsRepository> _flightsRepository;
 		private readonly Lazy<SaveReservationToStorageService> _saveReservationToStorageService;
 		private readonly Lazy<UpdateReservationInStorageService> _updateReservationInStorageService;
 		private readonly Lazy<DeleteReservationInStorageService> _deleteReservationInStorageService;
@@ -20,6 +21,7 @@ namespace Challenge.Domain.Services.Reservations
 			ILogger<AddCancelReservationToOutboxService> logger,
 			Lazy<IOutboxRepository> outboxRepository,
 			Lazy<IReservationsRepository> reservationsRepository,
+			Lazy<IFlightsRepository> flightsRepository,
 			Lazy<SaveReservationToStorageService> saveReservationToStorageService,
 			Lazy<UpdateReservationInStorageService> updateReservationToStorageService,
 			Lazy<DeleteReservationInStorageService> deleteReservationInStorageService)
@@ -30,6 +32,7 @@ namespace Challenge.Domain.Services.Reservations
 			_saveReservationToStorageService = saveReservationToStorageService;
 			_updateReservationInStorageService = updateReservationToStorageService;
 			_deleteReservationInStorageService = deleteReservationInStorageService;
+			_flightsRepository = flightsRepository;
 		}
 
 		public async Task ProcessAsync(CancellationToken cancellationToken = default)
@@ -55,20 +58,41 @@ namespace Challenge.Domain.Services.Reservations
 
 		private async Task SetReservationData(IEnumerable<Outbox> unProcessedOutboxes, CancellationToken cancellationToken)
 		{
-			var unProcessedIds = unProcessedOutboxes
-				.Select(outbox => outbox.EventType == EventType.Delete ? outbox.DeserializedData<Guid>() : outbox.DeserializedData<Reservation>().Id)
+			var deletIds = unProcessedOutboxes.Where(outbox => outbox.EventType == EventType.Delete)
+				.Select(outbox => outbox.DeserializedData<Guid>())
 				.ToArray();
 
-			var reservationsInStorage = await _reservationsRepository.Value.GetMultipleByIdAndIncludeAnyAsync(unProcessedIds, cancellationToken);
+			var reservationsToDelete = await _reservationsRepository.Value.GetMultipleByIdAndIncludeAnyAsync(deletIds, cancellationToken);
 
-			var join = unProcessedOutboxes.Join(reservationsInStorage,
-				outbox => outbox.EventType == EventType.Delete ? outbox.DeserializedData<Guid>() : outbox.DeserializedData<Reservation>().Id, 
+			var joinToDelete = unProcessedOutboxes.Join(reservationsToDelete,
+				outbox => outbox.EventType == EventType.Delete ? outbox.DeserializedData<Guid>() : outbox.DeserializedData<Reservation>().Id,
 				reservation => reservation.Id,
 				(outbox, reservation) => (outbox, reservation)).ToArray();
 
-			foreach (var item in join)
+			foreach (var item in joinToDelete)
 			{
 				item.outbox.SerializeAndSetEventData(item.reservation);
+			}
+
+			var otherUnProcessedOutboxes = unProcessedOutboxes.Where(outbox => outbox.EventType != EventType.Delete)
+				.ToArray();
+
+			var flightIds = otherUnProcessedOutboxes
+				.Select(outbox => outbox.DeserializedData<Reservation>().FlightId)
+				.ToArray();
+
+			var flights = await _flightsRepository.Value.GetMultipleByIds(flightIds, cancellationToken);
+
+			var otherJoin = otherUnProcessedOutboxes.Join(flights,
+				outbox => outbox.DeserializedData<Reservation>().FlightId,
+				flight => flight.Id,
+				(outbox, flight) => (outbox, flight));
+
+			foreach (var item in otherJoin)
+			{
+				var eventData = item.outbox.DeserializedData<Reservation>();
+				eventData.SetFlight(item.flight);
+				item.outbox.SerializeAndSetEventData(eventData);
 			}
 		}
 

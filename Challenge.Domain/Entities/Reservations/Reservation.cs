@@ -6,12 +6,20 @@ namespace Challenge.Domain.Entities.Reservations
 {
 	public class Reservation : DomainEntity<Guid>, IAuditableEntity
 	{
+		[JsonInclude]
+		public override Guid Id { get => base.Id; protected set => base.Id = value; }
+		[JsonInclude]
 		public string UserName { get; private set; }
+		[JsonInclude]
 		public string PassportNumber { get; private set; }
+		[JsonInclude]
 		public string Email { get; private set; }
+		[JsonInclude]
 		public Guid FlightId { get; private set; }
+		[JsonInclude]
 		public string SeatNumber { get; private set; }
 
+		[JsonInclude]
 		public virtual Flight? Flight { get; private set; }
 
 		public Reservation(string userName, string passportNumber, string email, Guid flightId, string seatNumber)
@@ -36,6 +44,7 @@ namespace Challenge.Domain.Entities.Reservations
 		}
 
 #pragma warning disable CS8618
+		[JsonConstructor]
 		private Reservation()
 		{
 		}
@@ -44,6 +53,11 @@ namespace Challenge.Domain.Entities.Reservations
 		public string JsonSerialize()
 		{
 			return JsonSerializer.Serialize(this);
+		}
+
+		internal void SetFlight(Flight flight)
+		{
+			Flight = flight;
 		}
 	}
 }

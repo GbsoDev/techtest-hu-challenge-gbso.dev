@@ -1,5 +1,6 @@
 ﻿using Challenge.Domain.Entities;
 using Challenge.Domain.Exceptions;
+using Challenge.Domain.Helpers;
 using Challenge.Domain.Ports;
 using Challenge.Domain.Resources;
 using Microsoft.EntityFrameworkCore;
@@ -87,13 +88,16 @@ namespace Challenge.EfStorage
 			Context.ChangeTracker.DetectChanges();
 			foreach (var entry in Context.ChangeTracker.Entries())
 			{
-				if (entry.State == EntityState.Added)
+				if(EntityHelper.IsIAuditableEntity(entry.GetType()))
 				{
-					entry.Property(IEfContext.SAVE_DATE_PROPERTY_NAME).CurrentValue = DateTimeProvider.UtcNow;
-				}
-				if (entry.State == EntityState.Modified)
-				{
-					entry.Property(IEfContext.LAST_UPDATE_PROPERTY_NAME).CurrentValue = DateTimeProvider.UtcNow;
+					if (entry.State == EntityState.Added)
+					{
+						entry.Property(IEfContext.SAVE_DATE_PROPERTY_NAME).CurrentValue = DateTimeProvider.UtcNow;
+					}
+					if (entry.State == EntityState.Modified)
+					{
+						entry.Property(IEfContext.LAST_UPDATE_PROPERTY_NAME).CurrentValue = DateTimeProvider.UtcNow;
+					}
 				}
 			}
 			await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

@@ -5,5 +5,6 @@ namespace Challenge.Domain.Ports
 {
 	public interface IFlightsRepository : IGet<Flight>
 	{
+		Task<Flight[]> GetMultipleByIds(Guid[] flightIds, CancellationToken cancellationToken);
 	}
 }

@@ -1,5 +1,6 @@
 using Challenge.Domain.Entities.Flights;
 using Challenge.Domain.Ports;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Challenge.EfStorage.Repositories
@@ -18,12 +19,27 @@ namespace Challenge.EfStorage.Repositories
 
 		public async Task<Flight[]> GetAllAsync(CancellationToken cancellationToken = default)
 		{
-			return await _repository.GetAllAsync(cancellationToken);
+			return await _repository.Set()
+				.Include(flight => flight.OriginCity)
+				.Include(flight => flight.DestinationCity)
+				.ToArrayAsync(cancellationToken);
 		}
 
 		public async Task<Flight?> GetByIdAsync(object id, CancellationToken cancellationToken = default)
 		{
-			return await _repository.GetByIdAsync(id, cancellationToken);
+			return await _repository.Set()
+				.Include(flight => flight.OriginCity)
+				.Include(flight => flight.DestinationCity)
+				.FirstOrDefaultAsync(flight => flight.Id.Equals(id), cancellationToken);
+		}
+
+		public async Task<Flight[]> GetMultipleByIds(Guid[] flightIds, CancellationToken cancellationToken)
+		{
+			return await _repository.Set()
+				.Where(flight => flightIds.Contains(flight.Id))
+				.Include(flight => flight.OriginCity)
+				.Include(flight => flight.DestinationCity)
+				.ToArrayAsync(cancellationToken);
 		}
 	}
 }

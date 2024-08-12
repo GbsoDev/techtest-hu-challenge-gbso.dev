@@ -7,37 +7,39 @@ namespace Challenge.Domain.Entities.Reservations
 	{
 		public static ValidationSet ValidateToCreate(Reservation reservation)
 		{
-			return new ValidationSet(string.Format(ValidationMessages.ActionRegisterDenied, nameof(Reservation)))
+			var validationSet = new ValidationSet(string.Format(ValidationMessages.ActionRegisterDenied, nameof(Reservation)));
 
-				.AddIsNotEmptyOrWhiteSpaceValidation(reservation.UserName,
-					ValidationMessages.EmptyOrNullWithSpacesData, nameof(reservation.UserName))
+			validationSet.AddIsNotEmptyOrWhiteSpaceValidation(reservation.UserName,
+				ValidationMessages.EmptyOrNullWithSpacesData, nameof(reservation.UserName));
 
-				.AddLengthBetweenValidation(reservation.UserName, ReservationParameters.UserNameMinLength, ReservationParameters.UserNameMaxLength,
-					ValidationMessages.CharacterRangeData, nameof(reservation.UserName), ReservationParameters.UserNameMinLength, ReservationParameters.UserNameMaxLength)
+			validationSet.AddLengthBetweenValidation(reservation.UserName, ReservationParameters.UserNameMinLength, ReservationParameters.UserNameMaxLength,
+				ValidationMessages.CharacterRangeData, nameof(reservation.UserName), ReservationParameters.UserNameMinLength, ReservationParameters.UserNameMaxLength);
 
-				.AddIsNotEmptyOrWhiteSpaceValidation(reservation.PassportNumber,
-					ValidationMessages.EmptyOrNullWithSpacesData, nameof(reservation.PassportNumber))
+			validationSet.AddIsNotEmptyOrWhiteSpaceValidation(reservation.PassportNumber,
+				ValidationMessages.EmptyOrNullWithSpacesData, nameof(reservation.PassportNumber));
 
-				.AddLengthBetweenValidation(reservation.UserName, ReservationParameters.PassportNumberMinLength, ReservationParameters.PassportNumberMaxLength,
-					ValidationMessages.CharacterRangeData, nameof(reservation.UserName), ReservationParameters.UserNameMinLength, ReservationParameters.UserNameMaxLength)
+			validationSet.AddLengthBetweenValidation(reservation.UserName, ReservationParameters.PassportNumberMinLength, ReservationParameters.PassportNumberMaxLength,
+				ValidationMessages.CharacterRangeData, nameof(reservation.UserName), ReservationParameters.UserNameMinLength, ReservationParameters.UserNameMaxLength);
 
-				.AddIsNotEmptyOrWhiteSpaceValidation(reservation.Email,
-					ValidationMessages.EmptyOrNullWithSpacesData, nameof(reservation.Email))
+			validationSet.AddIsNotEmptyOrWhiteSpaceValidation(reservation.Email,
+				ValidationMessages.EmptyOrNullWithSpacesData, nameof(reservation.Email));
 
-				.AddValidation(reservation.Email, IsValidEmail,
-					ValidationMessages.EmailFormat, nameof(reservation.Email))
+			validationSet.AddValidation(reservation.Email, IsValidEmail,
+				ValidationMessages.EmailFormat, nameof(reservation.Email), reservation.Email);
 
-				.AddIsNotNullValidation(reservation.FlightId,
-					ValidationMessages.NullData, nameof(reservation.FlightId))
+			validationSet.AddIsNotNullValidation(reservation.FlightId,
+				ValidationMessages.NullData, nameof(reservation.FlightId));
 
-				.AddIsNotDefaultValidation(reservation.FlightId,
-					ValidationMessages.EmptyOrNullData, nameof(reservation.FlightId))
+			validationSet.AddIsNotDefaultValidation(reservation.FlightId,
+				ValidationMessages.EmptyOrNullData, nameof(reservation.FlightId));
 
-				.AddIsNotEmptyOrWhiteSpaceValidation(reservation.SeatNumber,
-					ValidationMessages.EmptyOrNullWithSpacesData, nameof(reservation.SeatNumber))
+			validationSet.AddIsNotEmptyOrWhiteSpaceValidation(reservation.SeatNumber,
+				ValidationMessages.EmptyOrNullWithSpacesData, nameof(reservation.SeatNumber));
 
-				.AddLengthBetweenValidation(reservation.SeatNumber, ReservationParameters.SeatNumberMinLength, ReservationParameters.SeatNumberMaxLength,
-					ValidationMessages.CharacterRangeData, nameof(reservation.SeatNumber), ReservationParameters.SeatNumberMinLength, ReservationParameters.SeatNumberMaxLength);
+			validationSet.AddLengthBetweenValidation(reservation.SeatNumber, ReservationParameters.SeatNumberMinLength, ReservationParameters.SeatNumberMaxLength,
+				ValidationMessages.CharacterRangeData, nameof(reservation.SeatNumber), ReservationParameters.SeatNumberMinLength, ReservationParameters.SeatNumberMaxLength);
+
+			return validationSet;
 		}
 
 		public static ValidationSet ValidateToUpdate(Reservation reservation)

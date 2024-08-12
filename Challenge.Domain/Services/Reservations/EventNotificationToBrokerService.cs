@@ -31,7 +31,7 @@ namespace Challenge.Domain.Services.Reservations
 
 		public async Task NotifyAsync(CancellationToken cancellationToken = default)
 		{
-			var unProcessedOutboxes = await _outboxRepository.Value.GetAllUnProcessedAsync(cancellationToken);
+			var unProcessedOutboxes = await _outboxRepository.Value.GetAllProcessedAsync(cancellationToken);
 
 			_logger.LogInformation(LogMessages.ProcessingObjects, nameof(Reservation));
 			foreach (var outbox in unProcessedOutboxes)
