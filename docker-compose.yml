@@ -1,0 +1,44 @@
+version: '3.4'
+
+services:
+  challenge.api:
+    container_name: challenge.api
+    image: ${DOCKER_REGISTRY-}challengeapi
+    build:
+      context: .
+      dockerfile: Challenge.Api/Dockerfile
+
+  challenge.outbox.publisherworker:
+    container_name: challenge.outbox.publisherworker
+    image: ${DOCKER_REGISTRY-}challengeoutboxpublisherworker
+    build:
+      context: .
+      dockerfile: Challenge.Outbox.PublisherWorker/Dockerfile
+
+  challenge.broker.notificationworker:
+    container_name: challenge.broker.notificationworker
+    image: ${DOCKER_REGISTRY-}challengebrokernotificationworker
+    build:
+      context: .
+      dockerfile: Challenge.Broker.NotificationWorker/Dockerfile
+
+  challenge.email.notificationworker:
+    container_name: challenge.email.notificationworker
+    image: ${DOCKER_REGISTRY-}challengeemailnotificationworker
+    build:
+      context: .
+      dockerfile: Challenge.Email.NotificationWorker/Dockerfile
+
+  challenge.rabbitmq:
+    container_name: challenge.rabbitmq
+    image: rabbitmq:3-management
+
+  challenge.database:
+      container_name: "challenge.database"
+      image: postgres
+      restart: always
+
+  challenge.pgadmin4:
+    container_name: "challenge.pgadmin4"
+    image: dpage/pgadmin4
+
